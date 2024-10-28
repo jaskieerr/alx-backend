@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" task 2"""
+""" task 2 second"""
 import csv
 import math
 from typing import List, Tuple
