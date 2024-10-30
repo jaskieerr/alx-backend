@@ -1,40 +1,46 @@
 #!/usr/bin/python3
-""" doc doc doc """
+''' LFU Caching '''
 BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LFUCache(BaseCaching):
-    """doc doc doc"""
+    '''LFU Caching'''
 
     def __init__(self):
-        """doc doc doc"""
+        '''LFU Caching'''
         super().__init__()
-        self.use_count = {}
+        self.counter = {}
 
     def put(self, k, v):
-        """doc doc doc"""
+        '''LFU Caching'''
         if k is None or v is None:
             return
 
         if k in self.cache_data:
             self.cache_data[k] = v
-            self.use_count[k] += 1
+            self.counter[k] += 1
         else:
             if len(self.cache_data) >= self.MAX_ITEMS:
-                min_use = min(self.use_count.values())
+                m_use = min(self.counter.values())
                 least_used_keys = [
-                    x for x, count in self.use_count.items() if count == min_use
+                    x for x, count in self.counter.items() if count == m_use
                 ]
-                lfu_key = min(least_used_keys, key=self.use_count.get)
+                lfu_key = min(least_used_keys, key=self.counter.get)
                 self.cache_data.pop(lfu_key)
-                self.use_count.pop(lfu_key)
+                self.counter.pop(lfu_key)
                 print("DISCARD:", lfu_key)
 
             self.cache_data[k] = v
-            self.use_count[k] = 1
+            self.counter[k] = 1
 
     def get(self, k):
-        """doc doc doc"""
+        '''LFU Caching'''
         if k in self.cache_data:
-            self.use_count[k] += 1
+            self.counter[k] += 1
             return self.cache_data.get(k)
+
+    def get(self, key):
+        '''LFU Caching'''
+        if key in self.cache_data:
+            self.freq[key] += 1
+            return self.cache_data.get(key)
